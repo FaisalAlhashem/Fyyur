@@ -41,6 +41,51 @@ class States(db.Model):
     name = db.Column(db.String(), nullable=False)
 
 
+class Show(db.Model):
+    __tablename__ = 'Shows'
+
+    artist_id = db.Column(db.Integer, db.ForeignKey(
+        'Artist.id'), primary_key=True)
+    venue_id = db.Column(db.Integer, db.ForeignKey(
+        'Venue.id'), primary_key=True)
+    time = db.Column(db.String, nullable=False, primary_key=True)
+
+
+class Venue(db.Model):
+    __tablename__ = 'Venue'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    city = db.Column(db.String(120))
+    state = db.Column(db.String(120))
+    address = db.Column(db.String(120))
+    phone = db.Column(db.String(120))
+    genres = db.Column(db.String(120))
+    image_link = db.Column(db.String(500))
+    website_link = db.Column(db.String(120), default='no Website')
+    facebook_link = db.Column(db.String(120), default='no Facebook')
+    looking_for_talent = db.Column(db.Boolean, default=False)
+    seeking_Description = db.Column(db.String(), default='')
+    shows = db.relationship('Show', backref='Venue', lazy=True)
+
+
+class Artist(db.Model):
+    __tablename__ = 'Artist'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    city = db.Column(db.String(120))
+    state = db.Column(db.String(120))
+    phone = db.Column(db.String(120))
+    genres = db.Column(db.String(120))
+    image_link = db.Column(db.String(500))
+    website_link = db.Column(db.String(120), default='no Website')
+    facebook_link = db.Column(db.String(120), default='no Facebook')
+    looking_for_talent = db.Column(db.Boolean, default=False)
+    seeking_Description = db.Column(db.String())
+    shows = db.relationship('Show', backref='Artist', lazy=True)
+
+
 # this method will seed the States and Genres tables with data
 # how to use: in terminal cd into file dir and enter the python3 mode
 # then enter "from app import db , Genre, States, dbSeed"
@@ -165,7 +210,7 @@ def dbSeed():
     if len(Artist.query.all()) == 0:
         artists = [
             Artist(
-                id=1,
+                id=4,
                 name=' Guns N Petals ',
                 city='San Francisco',
                 state='CA',
@@ -176,7 +221,7 @@ def dbSeed():
                 facebook_link='https://www.facebook.com/GunsNPetals'
             ),
             Artist(
-                id=2,
+                id=5,
                 name=' Matt Quevedo ',
                 city='New York',
                 state='NY',
@@ -186,7 +231,7 @@ def dbSeed():
                 facebook_link='https://www.facebook.com/mattquevedo923251523'
             ),
             Artist(
-                id=3,
+                id=6,
                 name=' The Wild Sax Band ',
                 city='San Francisco',
                 state='CA',
@@ -196,53 +241,36 @@ def dbSeed():
             )
         ]
         db.session.add_all(artists)
+    if len(Show.query.all()) == 0:
+        shows = [
+            Show(
+                venue_id=1,
+                artist_id=4,
+                time="2019-05-21T21:30:00.000Z"
+            ),
+            Show(
+                venue_id=3,
+                artist_id=5,
+                time="2019-06-15T23:00:00.000Z"
+            ),
+            Show(
+                venue_id=3,
+                artist_id=6,
+                time="2035-04-01T20:00:00.000Z"
+            ),
+            Show(
+                venue_id=3,
+                artist_id=6,
+                time="2035-04-08T20:00:00.000Z"
+            ),
+            Show(
+                venue_id=3,
+                artist_id=6,
+                time="2035-04-15T20:00:00.000Z"
+            )]
+        db.session.add_all(shows)
     db.session.commit()
     print('database seeded')
-
-
-class Show(db.Model):
-    __tablename__ = 'Shows'
-
-    artist_id = db.Column(db.Integer, db.ForeignKey(
-        'Artist.id'), primary_key=True)
-    venue_id = db.Column(db.Integer, db.ForeignKey(
-        'Venue.id'), primary_key=True)
-    time = db.Column(db.String, nullable=False)
-
-
-class Venue(db.Model):
-    __tablename__ = 'Venue'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    address = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
-    genres = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
-    website_link = db.Column(db.String(120), default='no Website')
-    facebook_link = db.Column(db.String(120), default='no Facebook')
-    looking_for_talent = db.Column(db.Boolean, default=False)
-    seeking_Description = db.Column(db.String(), default='')
-    shows = db.relationship('Show', backref='Venue', lazy=True)
-
-
-class Artist(db.Model):
-    __tablename__ = 'Artist'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
-    genres = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
-    website_link = db.Column(db.String(120), default='no Website')
-    facebook_link = db.Column(db.String(120), default='no Facebook')
-    looking_for_talent = db.Column(db.Boolean, default=False)
-    seeking_Description = db.Column(db.String())
-    shows = db.relationship('Show', backref='Artist', lazy=True)
 
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.

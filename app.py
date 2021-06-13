@@ -52,10 +52,10 @@ class Venue(db.Model):
     address = db.Column(db.String(120), unique=True)
     phone = db.Column(db.String(120), unique=True)
     genres = db.Column(db.String(120))
-    image_link = db.Column(db.String(500), unique=True)
-    website_link = db.Column(db.String(120), default='no Website', unique=True)
+    image_link = db.Column(db.String(500))
+    website_link = db.Column(db.String(120), default=None)
     facebook_link = db.Column(
-        db.String(120), default='no Facebook', unique=True)
+        db.String(120), default=None)
     seeking_talent = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String())
     shows = db.relationship('Show', backref='Venue', lazy=True)

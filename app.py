@@ -338,15 +338,19 @@ def create_venue_form():
 @ app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
     try:
+        venue_id = Venue.query.order_by(Venue.id.desc()).first().id + 1
         name = request.form.get("name")
         city = request.form.get("city")
         state = request.form.get("state")
         address = request.form.get("address")
         phone = request.form.get("phone")
         genresArray = request.form.getlist("genres")
-        genres = ''
-        for genre in genresArray:
-            genres = genres + genre + ", "
+        genres = genresArray[0]
+        if len(genresArray) > 1:
+            i = 1
+            while i < len(genresArray):
+                genres = genres + ", " + genresArray[i]
+                i += 1
         image_link = request.form.get("image_link")
         website_link = request.form.get("website_link")
         facebook_link = request.form.get("facebook_link")
@@ -359,6 +363,7 @@ def create_venue_submission():
         print(id, name, city, state, address, phone, genres,
               seeking_talent, seeking_description)
         venue = Venue(
+            id=venue_id,
             name=name,
             city=city,
             state=state,
@@ -636,7 +641,7 @@ def create_artist_form():
 def create_artist_submission():
     # called upon submitting the new artist listing form
     try:
-        id = Artist.query.order_by(Artist.id.desc()).first().id
+        artist_id = Artist.query.order_by(Artist.id.desc()).first().id + 1
         name = request.form.get("name")
         city = request.form.get("city")
         state = request.form.get("state")
@@ -658,6 +663,7 @@ def create_artist_submission():
             seeking_venue = False
         seeking_description = request.form.get("seeking_description")
         artist = Artist(
+            id=artist_id,
             name=name,
             city=city,
             state=state,

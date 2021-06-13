@@ -31,18 +31,6 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 
 
-class Genres(db.Model):
-    __tablename__ = 'Genres'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-
-
-class States(db.Model):
-    __tablename__ = 'States'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-
-
 class Show(db.Model):
     __tablename__ = 'Shows'
 
@@ -66,7 +54,7 @@ class Venue(db.Model):
     image_link = db.Column(db.String(500))
     website_link = db.Column(db.String(120), default='no Website')
     facebook_link = db.Column(db.String(120), default='no Facebook')
-    seeking_artist = db.Column(db.Boolean, default=False)
+    seeking_talent = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String())
     shows = db.relationship('Show', backref='Venue', lazy=True)
 
@@ -90,84 +78,10 @@ class Artist(db.Model):
 
 # this method will seed the States and Genres tables with data
 # how to use: in terminal cd into file dir and enter the python3 mode
-# then enter "from app import db , Genre, States, dbSeed"
-# then run dbSeed()
+# >>> from app import db, Venue, Artist, Show,  dbSeed
+# >>> dbSeed()
+# >>> quit()
 def dbSeed():
-    if len(Genres.query.all()) == 0:
-        genres = [Genres(name='Alternative'),
-                  Genres(name='Blues'),
-                  Genres(name='Classical'),
-                  Genres(name='Country'),
-                  Genres(name='Electronic'),
-                  Genres(name='Folk'),
-                  Genres(name='Funk'),
-                  Genres(name='Hip-Hop'),
-                  Genres(name='Heavy Metal'),
-                  Genres(name='Instrumental'),
-                  Genres(name='Jazz'),
-                  Genres(name='Musical Theatre'),
-                  Genres(name='Pop'),
-                  Genres(name='Punk'),
-                  Genres(name='R&B'),
-                  Genres(name='Reggae'),
-                  Genres(name='Rock n Roll'),
-                  Genres(name='Soul'),
-                  Genres(name='Other')]
-
-        db.session.add_all(genres)
-    if len(States.query.all()) == 0:
-        states = [States(name='AL'),
-                  States(name='AK'),
-                  States(name='AZ'),
-                  States(name='AR'),
-                  States(name='CA'),
-                  States(name='CO'),
-                  States(name='CT'),
-                  States(name='DE'),
-                  States(name='DC'),
-                  States(name='FL'),
-                  States(name='GA'),
-                  States(name='HI'),
-                  States(name='ID'),
-                  States(name='IL'),
-                  States(name='IN'),
-                  States(name='IA'),
-                  States(name='KS'),
-                  States(name='KY'),
-                  States(name='LA'),
-                  States(name='ME'),
-                  States(name='MT'),
-                  States(name='NE'),
-                  States(name='NV'),
-                  States(name='NH'),
-                  States(name='NJ'),
-                  States(name='NM'),
-                  States(name='NY'),
-                  States(name='NC'),
-                  States(name='ND'),
-                  States(name='OH'),
-                  States(name='OK'),
-                  States(name='OR'),
-                  States(name='MD'),
-                  States(name='MA'),
-                  States(name='MI'),
-                  States(name='MN'),
-                  States(name='MS'),
-                  States(name='MO'),
-                  States(name='PA'),
-                  States(name='RI'),
-                  States(name='SC'),
-                  States(name='SD'),
-                  States(name='TN'),
-                  States(name='TX'),
-                  States(name='UT'),
-                  States(name='VT'),
-                  States(name='VA'),
-                  States(name='WA'),
-                  States(name='WV'),
-                  States(name='WI'),
-                  States(name='WY')]
-        db.session.add_all(states)
     if len(Venue.query.all()) == 0:
         venues = [
             Venue(
@@ -181,7 +95,7 @@ def dbSeed():
                 image_link='https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
                 website_link='https://www.themusicalhop.com/',
                 facebook_link='https://www.facebook.com/TheMusicalHop',
-                seeking_artist=True,
+                seeking_talent=True,
                 seeking_description="We are on the lookout for a local artist to play every two weeks. Please call us."
             ),
             Venue(
@@ -214,12 +128,12 @@ def dbSeed():
     if len(Artist.query.all()) == 0:
         artists = [
             Artist(
-                id=4,
-                name=' Guns N Petals ',
+                id=1,
+                name='Guns N Petals',
                 city='San Francisco',
                 state='CA',
                 phone=' 326-123-5000 ',
-                genres=' Rock n Roll ',
+                genres='Rock n Roll',
                 seeking_venue=True,
                 seeking_description='Looking for shows to perform at in the San Francisco Bay Area!',
                 image_link='https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
@@ -227,18 +141,18 @@ def dbSeed():
                 facebook_link='https://www.facebook.com/GunsNPetals'
             ),
             Artist(
-                id=5,
-                name=' Matt Quevedo ',
+                id=2,
+                name='Matt Quevedo',
                 city='New York',
                 state='NY',
                 phone=' 300-400-5000 ',
-                genres=' Jazz ',
+                genres='Jazz',
                 image_link='https://images.unsplash.com/photo-1495223153807-b916f75de8c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
                 facebook_link='https://www.facebook.com/mattquevedo923251523'
             ),
             Artist(
-                id=6,
-                name=' The Wild Sax Band ',
+                id=3,
+                name='The Wild Sax Band',
                 city='San Francisco',
                 state='CA',
                 phone=' 432-325-5432 ',
@@ -251,27 +165,27 @@ def dbSeed():
         shows = [
             Show(
                 venue_id=1,
-                artist_id=4,
+                artist_id=1,
                 time="2019-05-21T21:30:00.000Z"
             ),
             Show(
                 venue_id=3,
-                artist_id=5,
+                artist_id=2,
                 time="2019-06-15T23:00:00.000Z"
             ),
             Show(
                 venue_id=3,
-                artist_id=6,
+                artist_id=3,
                 time="2035-04-01T20:00:00.000Z"
             ),
             Show(
                 venue_id=3,
-                artist_id=6,
+                artist_id=3,
                 time="2035-04-08T20:00:00.000Z"
             ),
             Show(
                 venue_id=3,
-                artist_id=6,
+                artist_id=3,
                 time="2035-04-15T20:00:00.000Z"
             )]
         db.session.add_all(shows)
@@ -401,7 +315,7 @@ def show_venue(venue_id):
         "phone": venue.phone,
         "website": venue.website_link,
         "facebook_link": venue.facebook_link,
-        "seeking_talent": venue.seeking_artist,
+        "seeking_talent": venue.seeking_talent,
         "seeking_description": venue.seeking_description,
         "image_link": venue.image_link,
         "past_shows": past_shows,
@@ -436,14 +350,14 @@ def create_venue_submission():
         image_link = request.form.get("image_link")
         website_link = request.form.get("website_link")
         facebook_link = request.form.get("facebook_link")
-        seeking_artist = request.form.get("seeking_talent")
-        if seeking_artist == 'y':
-            seeking_artist = True
+        seeking_talent = request.form.get("seeking_talent")
+        if seeking_talent == 'y':
+            seeking_talent = True
         else:
-            seeking_artist = False
+            seeking_talent = False
         seeking_description = request.form.get("seeking_description")
         print(id, name, city, state, address, phone, genres,
-              seeking_artist, seeking_description)
+              seeking_talent, seeking_description)
         venue = Venue(
             name=name,
             city=city,
@@ -454,7 +368,7 @@ def create_venue_submission():
             image_link=image_link,
             website_link=website_link,
             facebook_link=facebook_link,
-            seeking_artist=seeking_artist,
+            seeking_talent=seeking_talent,
             seeking_description=seeking_description
         )
         db.session.add(venue)
@@ -510,7 +424,7 @@ def edit_venue(venue_id):
     form.facebook_link.data = facebook
     form.image_link.data = venue.image_link
     form.website_link.data = venue.website_link
-    form.seeking_talent.data = venue.seeking_artist
+    form.seeking_talent.data = venue.seeking_talent
     form.seeking_description.data = venue.seeking_description
     return render_template('forms/edit_venue.html', form=form, venue=venue)
 
@@ -536,11 +450,11 @@ def edit_venue_submission(venue_id):
         venue.image_link = request.form.get("image_link")
         venue.website_link = request.form.get("website_link")
         venue.facebook_link = request.form.get("facebook_link")
-        seeking_artist = request.form.get("seeking_talent")
-        if seeking_artist == 'y':
-            venue.seeking_artist = True
+        seeking_talent = request.form.get("seeking_talent")
+        if seeking_talent == 'y':
+            venue.seeking_talent = True
         else:
-            venue.seeking_artist = False
+            venue.seeking_talent = False
         venue.seeking_description = request.form.get("seeking_description")
         print(venue.genres)
         db.session.commit()
@@ -643,7 +557,9 @@ def show_artist(artist_id):
 def edit_artist(artist_id):
     form = ArtistForm()
     artist = Artist.query.get(artist_id)
-    genres = artist.genres.rsplit(', ')
+    genres = [artist.genres]
+    genres = genres[0].rsplit(', ')
+    print(genres)
     website = artist.website_link
     facebook = artist.facebook_link
     description = artist.seeking_description
@@ -686,8 +602,8 @@ def edit_artist_submission(artist_id):
         artist.image_link = request.form.get("image_link")
         artist.website_link = request.form.get("website_link")
         artist.facebook_link = request.form.get("facebook_link")
-        seeking_artist = request.form.get("seeking_venue")
-        if seeking_artist != None:
+        seeking_venue = request.form.get("seeking_venue")
+        if seeking_venue != None:
             artist.seeking_venue = True
         else:
             artist.seeking_venue = False
@@ -720,14 +636,18 @@ def create_artist_form():
 def create_artist_submission():
     # called upon submitting the new artist listing form
     try:
+        id = Artist.query.order_by(Artist.id.desc()).first().id
         name = request.form.get("name")
         city = request.form.get("city")
         state = request.form.get("state")
         phone = request.form.get("phone")
         genresArray = request.form.getlist("genres")
-        genres = ''
-        for genre in genresArray:
-            genres = genres + genre + ", "
+        genres = genresArray[0]
+        if len(genresArray) > 1:
+            i = 1
+            while i < len(genresArray):
+                genres = genres + ", " + genresArray[i]
+                i += 1
         image_link = request.form.get("image_link")
         website_link = request.form.get("website_link")
         facebook_link = request.form.get("facebook_link")
@@ -737,9 +657,7 @@ def create_artist_submission():
         else:
             seeking_venue = False
         seeking_description = request.form.get("seeking_description")
-        print(name, city, state, phone, genres,
-              seeking_venue, seeking_description)
-        venue = Artist(
+        artist = Artist(
             name=name,
             city=city,
             state=state,
@@ -751,7 +669,7 @@ def create_artist_submission():
             seeking_venue=seeking_venue,
             seeking_description=seeking_description
         )
-        db.session.add(venue)
+        db.session.add(artist)
         db.session.commit()
         flash('Artist ' + name + ' was successfully listed!')
     except:
@@ -762,8 +680,23 @@ def create_artist_submission():
     finally:
         db.session.close()
     return render_template('pages/home.html')
-# delete artist
 
+
+@ app.route('/artists/<artist_id>', methods=['DELETE'])
+def delete_artist(artist_id):
+    try:
+        artist = Artist.query.get(artist_id)
+        db.session.delete(artist)
+        db.session.commit()
+        flash("artist "+artist.name+" has been deleted successfully")
+    except:
+        flash('something went wrong')
+        print(sys.exc_info())
+        db.session.rollback()
+        abort(500)
+    finally:
+        db.session.close()
+    return jsonify({'sucess': True})
 #  Shows
 #  ----------------------------------------------------------------
 
@@ -771,44 +704,18 @@ def create_artist_submission():
 @ app.route('/shows')
 def shows():
     # displays list of shows at /shows
-    # TODO: replace with real venues data.
-    #       num_shows should be aggregated based on number of upcoming shows per venue.
-    data = [{
-        "venue_id": 1,
-        "venue_name": "The Musical Hop",
-        "artist_id": 4,
-        "artist_name": "Guns N Petals",
-        "artist_image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
-        "start_time": "2019-05-21T21:30:00.000Z"
-    }, {
-        "venue_id": 3,
-        "venue_name": "Park Square Live Music & Coffee",
-        "artist_id": 5,
-        "artist_name": "Matt Quevedo",
-        "artist_image_link": "https://images.unsplash.com/photo-1495223153807-b916f75de8c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
-        "start_time": "2019-06-15T23:00:00.000Z"
-    }, {
-        "venue_id": 3,
-        "venue_name": "Park Square Live Music & Coffee",
-        "artist_id": 6,
-        "artist_name": "The Wild Sax Band",
-        "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
-        "start_time": "2035-04-01T20:00:00.000Z"
-    }, {
-        "venue_id": 3,
-        "venue_name": "Park Square Live Music & Coffee",
-        "artist_id": 6,
-        "artist_name": "The Wild Sax Band",
-        "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
-        "start_time": "2035-04-08T20:00:00.000Z"
-    }, {
-        "venue_id": 3,
-        "venue_name": "Park Square Live Music & Coffee",
-        "artist_id": 6,
-        "artist_name": "The Wild Sax Band",
-        "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
-        "start_time": "2035-04-15T20:00:00.000Z"
-    }]
+    shows = Show.query.order_by('time')
+    data = []
+    for show in shows:
+        row = {
+            "venue_id": show.venue_id,
+            "venue_name": show.Venue.name,
+            "artist_id": show.artist_id,
+            "artist_name": show.Artist.name,
+            "artist_image_link": show.Artist.image_link,
+            "start_time": show.time
+        }
+        data.append(row)
     return render_template('pages/shows.html', shows=data)
 
 
@@ -823,12 +730,24 @@ def create_shows():
 def create_show_submission():
     # called to create new shows in the db, upon submitting new show listing form
     # TODO: insert form data as a new Show record in the db, instead
-
-    # on successful db insert, flash success
-    flash('Show was successfully listed!')
-    # TODO: on unsuccessful db insert, flash an error instead.
-    # e.g., flash('An error occurred. Show could not be listed.')
-    # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
+    try:
+        venue_id = request.form.get("venue_id")
+        artist_id = request.form.get("artist_id")
+        time = request.form.get("start_time")
+        show = Show(
+            venue_id=venue_id,
+            artist_id=artist_id,
+            time=time)
+        db.session.add(show)
+        db.session.commit()
+        flash('Show was successfully listed!')
+    except:
+        db.session.rollback()
+        print(sys.exc_info())
+        flash('An error occurred. Show could not be listed.')
+        abort(500)
+    finally:
+        db.session.close()
     return render_template('pages/home.html')
 
 
@@ -859,7 +778,7 @@ if not app.debug:
 
 # Default port:
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0")
 
 # Or specify port manually:
 '''

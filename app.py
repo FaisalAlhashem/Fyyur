@@ -2,6 +2,7 @@
 # Imports
 #----------------------------------------------------------------------------#
 
+from enum import unique
 import dateutil.parser
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for, abort, jsonify
@@ -45,15 +46,16 @@ class Venue(db.Model):
     __tablename__ = 'Venue'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String, unique=True)
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
-    address = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
+    address = db.Column(db.String(120), unique=True)
+    phone = db.Column(db.String(120), unique=True)
     genres = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
-    website_link = db.Column(db.String(120), default='no Website')
-    facebook_link = db.Column(db.String(120), default='no Facebook')
+    image_link = db.Column(db.String(500), unique=True)
+    website_link = db.Column(db.String(120), default='no Website', unique=True)
+    facebook_link = db.Column(
+        db.String(120), default='no Facebook', unique=True)
     seeking_talent = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String())
     shows = db.relationship('Show', backref='Venue', lazy=True)
@@ -63,14 +65,14 @@ class Artist(db.Model):
     __tablename__ = 'Artist'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String, unique=True)
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
+    phone = db.Column(db.String(120), unique=True)
     genres = db.Column(db.String(500))
-    image_link = db.Column(db.String(500))
-    website_link = db.Column(db.String(120), default=None)
-    facebook_link = db.Column(db.String(120), default=None)
+    image_link = db.Column(db.String(500), unique=True)
+    website_link = db.Column(db.String(120), default=None, unique=True)
+    facebook_link = db.Column(db.String(120), default=None, unique=True)
     seeking_venue = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String())
     shows = db.relationship('Show', backref='Artist', lazy=True)
@@ -192,8 +194,6 @@ def dbSeed():
     db.session.commit()
     print('database seeded')
 
-
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
 #----------------------------------------------------------------------------#
 # Filters.

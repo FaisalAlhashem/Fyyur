@@ -50,7 +50,7 @@ class Venue(db.Model):
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
     address = db.Column(db.String(120), unique=True)
-    phone = db.Column(db.String(120), unique=True)
+    phone = db.Column(db.String(120))
     genres = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     website_link = db.Column(db.String(120), default=None)
@@ -68,11 +68,11 @@ class Artist(db.Model):
     name = db.Column(db.String, unique=True)
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
-    phone = db.Column(db.String(120), unique=True)
+    phone = db.Column(db.String(120))
     genres = db.Column(db.String(500))
-    image_link = db.Column(db.String(500), unique=True)
-    website_link = db.Column(db.String(120), default=None, unique=True)
-    facebook_link = db.Column(db.String(120), default=None, unique=True)
+    image_link = db.Column(db.String(500))
+    website_link = db.Column(db.String(120), default=None)
+    facebook_link = db.Column(db.String(120), default=None)
     seeking_venue = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String())
     shows = db.relationship('Show', backref='Artist', lazy=True)
@@ -338,7 +338,6 @@ def create_venue_form():
 @ app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
     try:
-        venue_id = Venue.query.order_by(Venue.id.desc()).first().id + 1
         name = request.form.get("name")
         city = request.form.get("city")
         state = request.form.get("state")
@@ -363,7 +362,6 @@ def create_venue_submission():
         print(id, name, city, state, address, phone, genres,
               seeking_talent, seeking_description)
         venue = Venue(
-            id=venue_id,
             name=name,
             city=city,
             state=state,
@@ -641,7 +639,6 @@ def create_artist_form():
 def create_artist_submission():
     # called upon submitting the new artist listing form
     try:
-        artist_id = Artist.query.order_by(Artist.id.desc()).first().id + 1
         name = request.form.get("name")
         city = request.form.get("city")
         state = request.form.get("state")
@@ -663,7 +660,6 @@ def create_artist_submission():
             seeking_venue = False
         seeking_description = request.form.get("seeking_description")
         artist = Artist(
-            id=artist_id,
             name=name,
             city=city,
             state=state,

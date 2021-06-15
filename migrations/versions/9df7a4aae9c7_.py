@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 68fdf1766dcb
+Revision ID: 9df7a4aae9c7
 Revises: 
-Create Date: 2021-06-13 22:14:08.358816
+Create Date: 2021-06-13 23:52:33.596516
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '68fdf1766dcb'
+revision = '9df7a4aae9c7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,11 +31,7 @@ def upgrade():
     sa.Column('seeking_venue', sa.Boolean(), nullable=True),
     sa.Column('seeking_description', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('facebook_link'),
-    sa.UniqueConstraint('image_link'),
-    sa.UniqueConstraint('name'),
-    sa.UniqueConstraint('phone'),
-    sa.UniqueConstraint('website_link')
+    sa.UniqueConstraint('name')
     )
     op.create_table('Venue',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -52,11 +48,7 @@ def upgrade():
     sa.Column('seeking_description', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('address'),
-    sa.UniqueConstraint('facebook_link'),
-    sa.UniqueConstraint('image_link'),
-    sa.UniqueConstraint('name'),
-    sa.UniqueConstraint('phone'),
-    sa.UniqueConstraint('website_link')
+    sa.UniqueConstraint('name')
     )
     op.create_table('Shows',
     sa.Column('artist_id', sa.Integer(), nullable=False),
